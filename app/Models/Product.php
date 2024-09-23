@@ -7,15 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    protected $table = 'products';
 
     protected $fillable = [
-        'name', 'description', 'price', 'stock'
+        'name',
+        'price',
     ];
 
-    // Один товар може мати багато коментарів (One-to-Many)
-    public function comments()
+    public function feedbacks()
     {
-        return $this->hasMany(ProductComment::class);
+        return $this->hasMany(Feedback::class);
     }
+
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
 }

@@ -7,21 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class TrainingSession extends Model
 {
-    use HasFactory;
+    protected $table = 'training_sessions';
 
     protected $fillable = [
-        'date', 'time', 'client_id', 'training_id'
+        'name',
+        'session_date',
+        'description',
+        'price',
+        'trainer_id',
     ];
 
-    // Одна сесія належить одному клієнту (Many-to-One)
-    public function client()
+    protected $casts = [
+        'session_date' => 'datetime',
+        'price' => 'decimal:2',
+    ];
+
+    public function trainer()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Trainer::class);
     }
 
-    // Одна сесія належить одному тренуванню (Many-to-One)
-    public function training()
+    public function purchases()
     {
-        return $this->belongsTo(Training::class);
+        return $this->hasMany(Purchase::class);
     }
 }

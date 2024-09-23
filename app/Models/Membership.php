@@ -7,15 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Membership extends Model
 {
-    use HasFactory;
+    protected $table = 'memberships';
 
     protected $fillable = [
-        'type', 'price', 'duration', 'client_id'
+        'type',
+        'start_date',
+        'end_date',
+        'price',
+        'user_id',
     ];
 
-    // Один абонемент належить одному клієнту (One-to-One)
-    public function client()
+    public function user()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class);
     }
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'price' => 'decimal:2',
+    ];
 }

@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Trainer extends Model
 {
-    use HasFactory;
+    protected $table = 'trainers';
 
     protected $fillable = [
-        'name', 'specialization', 'email', 'phone'
+        'first_name',
+        'last_name',
+        'specialization',
     ];
 
-    // Один тренер проводить багато тренувань (One-to-Many)
-    public function trainings()
+    public function trainingSessions()
     {
-        return $this->hasMany(Training::class);
+        return $this->hasMany(TrainingSession::class);
     }
 }
