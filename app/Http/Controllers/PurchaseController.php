@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $purchases = Purchase::all();
-        return view('purchase.index', compact('purchases'));
+        $sortField = $request->get('sortField', 'id'); // Поле для сортування (за замовчуванням 'id')
+        $sortDirection = $request->get('sortDirection', 'asc'); // Напрямок сортування (за замовчуванням 'asc')
+    
+        $purchases = Purchase::orderBy($sortField, $sortDirection)->get();
+    
+        return view('purchase.index', compact('purchases', 'sortField', 'sortDirection')); // Передаємо сортування у вигляд
     }
+    
 
     public function create()
     {

@@ -15,12 +15,36 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Price</th>
-                    <th>User ID</th>
+                    <th>
+                        <a href="{{ route('membership.index', ['sortField' => 'id', 'sortDirection' => ($sortField == 'id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            ID
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('membership.index', ['sortField' => 'type', 'sortDirection' => ($sortField == 'type' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Type
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('membership.index', ['sortField' => 'start_date', 'sortDirection' => ($sortField == 'start_date' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Start Date
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('membership.index', ['sortField' => 'end_date', 'sortDirection' => ($sortField == 'end_date' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            End Date
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('membership.index', ['sortField' => 'price', 'sortDirection' => ($sortField == 'price' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Price
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('membership.index', ['sortField' => 'user_id', 'sortDirection' => ($sortField == 'user_id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            User ID
+                        </a>
+                    </th>
                     <th>Actions</th>
                 </tr>
             </thead>

@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 
 class TrainerController extends Controller
 {
-    public function index()
-    {
-        $trainers = Trainer::all();
-        return view('trainer.index', compact('trainers')); // Повертаємо вьюшку з тренерами
-    }
+public function index(Request $request)
+{
+    $sortField = $request->get('sortField', 'id'); // Поле для сортування (за замовчуванням 'id')
+    $sortDirection = $request->get('sortDirection', 'asc'); // Напрямок сортування (за замовчуванням 'asc')
+
+    $trainers = Trainer::orderBy($sortField, $sortDirection)->get();
+
+    return view('trainer.index', compact('trainers', 'sortField', 'sortDirection')); // Передаємо додаткові змінні
+}
+
 
     public function create()
     {

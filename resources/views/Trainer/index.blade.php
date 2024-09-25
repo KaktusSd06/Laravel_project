@@ -15,10 +15,10 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Specialization</th>
+                    <th><a href="{{ route('trainer.index', ['sortField' => 'id', 'sortDirection' => ($sortField == 'id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">ID</a></th>
+                    <th><a href="{{ route('trainer.index', ['sortField' => 'first_name', 'sortDirection' => ($sortField == 'first_name' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">First Name</a></th>
+                    <th><a href="{{ route('trainer.index', ['sortField' => 'last_name', 'sortDirection' => ($sortField == 'last_name' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">Last Name</a></th>
+                    <th><a href="{{ route('trainer.index', ['sortField' => 'specialization', 'sortDirection' => ($sortField == 'specialization' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">Specialization</a></th>
                     <th>Actions</th>
                 </tr>
             </thead>

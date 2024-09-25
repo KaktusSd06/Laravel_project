@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $feedbacks = Feedback::all();
-        return view('feedback.index', compact('feedbacks'));
+        $sortField = $request->get('sortField', 'id'); // Поле для сортування (за замовчуванням 'id')
+        $sortDirection = $request->get('sortDirection', 'asc'); // Напрямок сортування (за замовчуванням 'asc')
+    
+        $feedbacks = Feedback::orderBy($sortField, $sortDirection)->get();
+    
+        return view('feedback.index', compact('feedbacks', 'sortField', 'sortDirection')); // Передаємо змінні для сортування
     }
+    
 
     public function create()
     {

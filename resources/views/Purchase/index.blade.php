@@ -15,9 +15,21 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Purchase Date</th>
-                    <th>Total Price</th>
+                    <th>
+                        <a href="{{ route('purchase.index', ['sortField' => 'id', 'sortDirection' => ($sortField == 'id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            ID
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('purchase.index', ['sortField' => 'purchase_date', 'sortDirection' => ($sortField == 'purchase_date' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Purchase Date
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('purchase.index', ['sortField' => 'total_price', 'sortDirection' => ($sortField == 'total_price' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Total Price
+                        </a>
+                    </th>
                     <th>User ID</th>
                     <th>Product ID</th>
                     <th>Training Session ID</th>

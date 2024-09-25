@@ -4,7 +4,6 @@
     <div class="container mt-5">
         <h2>Product List</h2>
 
-        <!-- Додайте це повідомлення тут -->
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
@@ -16,14 +15,26 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Price</th>
+                    <th>
+                        <a href="{{ route('products.index', ['sortField' => 'id', 'sortDirection' => ($sortField == 'id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            ID
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('products.index', ['sortField' => 'name', 'sortDirection' => ($sortField == 'name' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Name
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('products.index', ['sortField' => 'price', 'sortDirection' => ($sortField == 'price' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Price
+                        </a>
+                    </th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($product as $item)
+                @foreach ($products as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>

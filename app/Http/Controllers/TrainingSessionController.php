@@ -8,11 +8,16 @@ use App\Models\Trainer;
 
 class TrainingSessionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $trainingSessions = TrainingSession::all();
-        return view('training_session.index', compact('trainingSessions'));
+        $sortField = $request->get('sortField', 'name'); // Поле для сортування (за замовчуванням 'name')
+        $sortDirection = $request->get('sortDirection', 'asc'); // Напрямок сортування (за замовчуванням 'asc')
+    
+        $trainingSessions = TrainingSession::orderBy($sortField, $sortDirection)->get();
+    
+        return view('training_session.index', compact('trainingSessions', 'sortField', 'sortDirection'));
     }
+    
 
     public function create()
     {

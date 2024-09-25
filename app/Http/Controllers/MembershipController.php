@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 
 class MembershipController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $memberships = Membership::all();
-        return view('membership.index', compact('memberships'));
+        $sortField = $request->get('sortField', 'id'); // Поле для сортування (за замовчуванням 'id')
+        $sortDirection = $request->get('sortDirection', 'asc'); // Напрямок сортування (за замовчуванням 'asc')
+    
+        $memberships = Membership::orderBy($sortField, $sortDirection)->get();
+    
+        return view('membership.index', compact('memberships', 'sortField', 'sortDirection')); // Передаємо змінні для сортування
     }
+    
 
     public function create()
     {

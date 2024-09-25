@@ -7,10 +7,16 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index(){
-        $product = Product::all();
-        return view('product.index', compact('product'));    
+    public function index(Request $request)
+    {
+        $sortField = $request->get('sortField', 'id'); // Поле для сортування (за замовчуванням 'id')
+        $sortDirection = $request->get('sortDirection', 'asc'); // Напрямок сортування (за замовчуванням 'asc')
+    
+        $products = Product::orderBy($sortField, $sortDirection)->get();
+    
+        return view('product.index', compact('products', 'sortField', 'sortDirection')); // Передаємо змінні сортування у вигляд
     }
+    
 
     public function create()
     {

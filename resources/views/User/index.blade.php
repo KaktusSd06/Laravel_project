@@ -13,18 +13,19 @@
         <a href="{{ route('user.create') }}" class="btn btn-success mb-3">Add New User</a>
 
         <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Birth Date</th>
-                    <th>Admin</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+        <thead>
+            <tr>
+                <th><a href="{{ route('user.index', ['sortField' => 'id', 'sortDirection' => ($sortField == 'id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">ID</a></th>
+                <th><a href="{{ route('user.index', ['sortField' => 'name', 'sortDirection' => ($sortField == 'name' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">Name</a></th>
+                <th><a href="{{ route('user.index', ['sortField' => 'surname', 'sortDirection' => ($sortField == 'surname' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">Surname</a></th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Birth Date</th>
+                <th>Admin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
             <tbody>
                 @foreach ($users as $user)
                     <tr>

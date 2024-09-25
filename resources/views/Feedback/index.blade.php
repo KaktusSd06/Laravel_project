@@ -15,10 +15,26 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Text</th>
-                    <th>Product ID</th>
-                    <th>User ID</th>
+                    <th>
+                        <a href="{{ route('feedback.index', ['sortField' => 'id', 'sortDirection' => ($sortField == 'id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            ID
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('feedback.index', ['sortField' => 'text', 'sortDirection' => ($sortField == 'text' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Text
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('feedback.index', ['sortField' => 'product_id', 'sortDirection' => ($sortField == 'product_id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            Product ID
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ route('feedback.index', ['sortField' => 'user_id', 'sortDirection' => ($sortField == 'user_id' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}">
+                            User ID
+                        </a>
+                    </th>
                     <th>Actions</th>
                 </tr>
             </thead>

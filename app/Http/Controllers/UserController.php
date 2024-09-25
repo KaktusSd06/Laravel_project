@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('user.index', compact('users')); // Повертаємо вьюшку з користувачами
+        $sortField = $request->get('sortField', 'name');
+        $sortDirection = $request->get('sortDirection', 'asc');
+    
+        $users = User::orderBy($sortField, $sortDirection)->get();
+    
+        return view('user.index', compact('users', 'sortField', 'sortDirection'));
     }
+    
 
     public function create()
     {
