@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -9,7 +10,12 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases = Purchase::all();
-        return response()->json($purchases);
+        return view('purchase.index', compact('purchases'));
+    }
+
+    public function create()
+    {
+        return view('purchase.create'); // Повертаємо вьюшку для створення нової покупки
     }
 
     public function store(Request $request)
@@ -22,18 +28,22 @@ class PurchaseController extends Controller
             'training_session_id' => 'nullable|exists:training_sessions,id',
         ]);
 
-        $purchase = Purchase::create($request->all());
+        Purchase::create($request->all());
 
-        return response()->json([
-            'message' => 'Purchase created successfully!',
-            'purchase' => $purchase,
-        ], 201);
+        return redirect()->route('purchase.index')
+                         ->with('success', 'Purchase created successfully!');
     }
 
     public function show($id)
     {
         $purchase = Purchase::findOrFail($id);
-        return response()->json($purchase);
+        return view('purchase.show', compact('purchase')); // Повертаємо вьюшку для показу покупки
+    }
+
+    public function edit($id)
+    {
+        $purchase = Purchase::findOrFail($id);
+        return view('purchase.edit', compact('purchase')); // Повертаємо вьюшку для редагування покупки
     }
 
     public function update(Request $request, $id)
@@ -50,10 +60,7 @@ class PurchaseController extends Controller
 
         $purchase->update($request->all());
 
-        return response()->json([
-            'message' => 'Purchase updated successfully!',
-            'purchase' => $purchase,
-        ]);
+        return redirect()->route('purchase.index')->with('success', 'Purchase updated successfully!');
     }
 
     public function destroy($id)
@@ -61,8 +68,6 @@ class PurchaseController extends Controller
         $purchase = Purchase::findOrFail($id);
         $purchase->delete();
 
-        return response()->json([
-            'message' => 'Purchase deleted successfully!',
-        ]);
+        return redirect()->route('purchase.index')->with('success', 'Purchase deleted successfully!');
     }
 }

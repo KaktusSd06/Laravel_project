@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class Person extends Model
 {
-    protected $table = 'people';
+    protected $table = 'users';
 
     protected $fillable = [
-        'email', 
-        'phone_number', 
         'name', 
         'surname', 
-        'birth_date',
-        'isAdmin',
+        'email', 
+        'phone_number', 
+        'birth_date', 
+        'password',
+        'isAdmin'
     ];
 
     protected $casts = [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Trainer;
 use Illuminate\Http\Request;
 
 class TrainerController extends Controller
@@ -9,7 +10,12 @@ class TrainerController extends Controller
     public function index()
     {
         $trainers = Trainer::all();
-        return response()->json($trainers);
+        return view('trainer.index', compact('trainers')); // Повертаємо вьюшку з тренерами
+    }
+
+    public function create()
+    {
+        return view('trainer.create'); // Повертаємо вьюшку для створення нового тренера
     }
 
     public function store(Request $request)
@@ -22,16 +28,20 @@ class TrainerController extends Controller
 
         $trainer = Trainer::create($request->all());
 
-        return response()->json([
-            'message' => 'Trainer created successfully!',
-            'trainer' => $trainer,
-        ], 201);
+        return redirect()->route('trainer.index')
+                         ->with('success', 'Trainer created successfully!');
     }
 
     public function show($id)
     {
         $trainer = Trainer::findOrFail($id);
-        return response()->json($trainer);
+        return view('trainer.show', compact('trainer')); // Повертаємо вьюшку для показу тренера
+    }
+
+    public function edit($id)
+    {
+        $trainer = Trainer::findOrFail($id);
+        return view('trainer.edit', compact('trainer')); // Повертаємо вьюшку для редагування тренера
     }
 
     public function update(Request $request, $id)
@@ -46,10 +56,7 @@ class TrainerController extends Controller
 
         $trainer->update($request->all());
 
-        return response()->json([
-            'message' => 'Trainer updated successfully!',
-            'trainer' => $trainer,
-        ]);
+        return redirect()->route('trainer.index')->with('success', 'Trainer updated successfully!');
     }
 
     public function destroy($id)
@@ -57,8 +64,6 @@ class TrainerController extends Controller
         $trainer = Trainer::findOrFail($id);
         $trainer->delete();
 
-        return response()->json([
-            'message' => 'Trainer deleted successfully!',
-        ]);
+        return redirect()->route('trainer.index')->with('success', 'Trainer deleted successfully!');
     }
 }

@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TrainingSession;
 use Illuminate\Http\Request;
+use App\Models\Trainer; 
 
 class TrainingSessionController extends Controller
 {
     public function index()
     {
         $trainingSessions = TrainingSession::all();
-        return response()->json($trainingSessions);
+        return view('training_session.index', compact('trainingSessions'));
     }
 
+    public function create()
+    {
+        $trainers = Trainer::all();
+        return view('training_session.create', compact('trainers'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -22,18 +30,21 @@ class TrainingSessionController extends Controller
             'trainer_id' => 'required|exists:trainers,id',
         ]);
 
-        $trainingSession = TrainingSession::create($request->all());
+        TrainingSession::create($request->all());
 
-        return response()->json([
-            'message' => 'Training session created successfully!',
-            'trainingSession' => $trainingSession,
-        ], 201);
+        return redirect()->route('training_session.index')->with('success', 'Training session created successfully!');
     }
 
     public function show($id)
     {
         $trainingSession = TrainingSession::findOrFail($id);
-        return response()->json($trainingSession);
+        return view('training_session.show', compact('trainingSession'));
+    }
+
+    public function edit($id)
+    {
+        $trainingSession = TrainingSession::findOrFail($id);
+        return view('training_session.edit', compact('trainingSession'));
     }
 
     public function update(Request $request, $id)
@@ -50,10 +61,7 @@ class TrainingSessionController extends Controller
 
         $trainingSession->update($request->all());
 
-        return response()->json([
-            'message' => 'Training session updated successfully!',
-            'trainingSession' => $trainingSession,
-        ]);
+        return redirect()->route('training_session.index')->with('success', 'Training session updated successfully!');
     }
 
     public function destroy($id)
@@ -61,8 +69,6 @@ class TrainingSessionController extends Controller
         $trainingSession = TrainingSession::findOrFail($id);
         $trainingSession->delete();
 
-        return response()->json([
-            'message' => 'Training session deleted successfully!',
-        ]);
+        return redirect()->route('training_session.index')->with('success', 'Training session deleted successfully!');
     }
 }

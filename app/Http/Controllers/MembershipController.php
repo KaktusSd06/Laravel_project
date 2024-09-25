@@ -10,7 +10,12 @@ class MembershipController extends Controller
     public function index()
     {
         $memberships = Membership::all();
-        return response()->json($memberships);
+        return view('membership.index', compact('memberships'));
+    }
+
+    public function create()
+    {
+        return view('membership.create'); // Повертаємо вьюшку для створення нового членства
     }
 
     public function store(Request $request)
@@ -23,18 +28,22 @@ class MembershipController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $membership = Membership::create($request->all());
+        Membership::create($request->all());
 
-        return response()->json([
-            'message' => 'Membership created successfully!',
-            'membership' => $membership,
-        ], 201);
+        return redirect()->route('membership.index')
+                         ->with('success', 'Membership created successfully!');
     }
 
     public function show($id)
     {
         $membership = Membership::findOrFail($id);
-        return response()->json($membership);
+        return view('membership.show', compact('membership')); // Повертаємо вьюшку для показу членства
+    }
+
+    public function edit($id)
+    {
+        $membership = Membership::findOrFail($id);
+        return view('membership.edit', compact('membership')); // Повертаємо вьюшку для редагування членства
     }
 
     public function update(Request $request, $id)
@@ -51,10 +60,7 @@ class MembershipController extends Controller
 
         $membership->update($request->all());
 
-        return response()->json([
-            'message' => 'Membership updated successfully!',
-            'membership' => $membership,
-        ]);
+        return redirect()->route('membership.index')->with('success', 'Membership updated successfully!');
     }
 
     public function destroy($id)
@@ -62,8 +68,6 @@ class MembershipController extends Controller
         $membership = Membership::findOrFail($id);
         $membership->delete();
 
-        return response()->json([
-            'message' => 'Membership deleted successfully!',
-        ]);
+        return redirect()->route('membership.index')->with('success', 'Membership deleted successfully!');
     }
 }

@@ -10,7 +10,12 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedbacks = Feedback::all();
-        return response()->json($feedbacks);
+        return view('feedback.index', compact('feedbacks'));
+    }
+
+    public function create()
+    {
+        return view('feedback.create'); // Повертаємо вьюшку для створення нового відгуку
     }
 
     public function store(Request $request)
@@ -21,18 +26,21 @@ class FeedbackController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $feedback = Feedback::create($request->all());
+        Feedback::create($request->all());
 
-        return response()->json([
-            'message' => 'Feedback created successfully!',
-            'feedback' => $feedback,
-        ], 201);
+        return redirect()->route('feedback.index')->with('success', 'Feedback created successfully!');
     }
 
     public function show($id)
     {
         $feedback = Feedback::findOrFail($id);
-        return response()->json($feedback);
+        return view('feedback.show', compact('feedback')); // Повертаємо вьюшку для показу відгуку
+    }
+
+    public function edit($id)
+    {
+        $feedback = Feedback::findOrFail($id);
+        return view('feedback.edit', compact('feedback')); // Повертаємо вьюшку для редагування відгуку
     }
 
     public function update(Request $request, $id)
@@ -47,10 +55,7 @@ class FeedbackController extends Controller
 
         $feedback->update($request->all());
 
-        return response()->json([
-            'message' => 'Feedback updated successfully!',
-            'feedback' => $feedback,
-        ]);
+        return redirect()->route('feedback.index')->with('success', 'Feedback updated successfully!');
     }
 
     public function destroy($id)
@@ -58,8 +63,6 @@ class FeedbackController extends Controller
         $feedback = Feedback::findOrFail($id);
         $feedback->delete();
 
-        return response()->json([
-            'message' => 'Feedback deleted successfully!',
-        ]);
+        return redirect()->route('feedback.index')->with('success', 'Feedback deleted successfully!');
     }
 }

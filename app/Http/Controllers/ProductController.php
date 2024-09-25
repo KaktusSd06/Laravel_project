@@ -3,59 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
     public function index(){
-        $product = Membersip::all();
-        return response()->json($product);
+        $product = Product::all();
+        return view('product.index', compact('product'));    
     }
 
-    public function store(Request $reauest)
+    public function create()
+    {
+        return view('product.create'); // Повертаємо вьюшку для створення продукту
+    }
+
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
         ]);
-
-        $product = Product::crate($request->all());
-
-        return response()->json([
-            'message' => 'Product created successfully!',
-            'product' => $product,
-        ], 201);
+    
+        Product::create($request->all());
+    
+        return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
     public function show($id)
     {
-        $product = Membership::findOrFail($id);
+        $product = Product::findOrFail($id);
         return response()->json($product);
+    }
+
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('product.edit', compact('product')); // Повертаємо вьюшку для редагування продукту
     }
 
     public function update(Request $request, $id)
     {
-        $product = Membership::findOrFail($id);
-
+        $product = Product::findOrFail($id);
+    
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
         ]);
-
+    
         $product->update($request->all());
-
-        return response()->json([
-            'message' => 'Product updated successfully!',
-            'product' => $product,
-        ]);
+    
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
+    
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-
-        return response()->json([
-            'message' => 'Product deleted successfully!',
-        ]);
+    
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 }

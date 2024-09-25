@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TrainingSession extends Model
 {
+    use HasFactory; // Додано для використання фабрик
+
     protected $table = 'training_sessions';
 
     protected $fillable = [

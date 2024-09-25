@@ -10,7 +10,12 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json($users);
+        return view('user.index', compact('users')); // Повертаємо вьюшку з користувачами
+    }
+
+    public function create()
+    {
+        return view('user.create');
     }
 
     public function store(Request $request)
@@ -21,21 +26,29 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'phone_number' => 'required|string|max:20',
             'birth_date' => 'required|date',
+            'password' => 'required|string|min:8',
             'isAdmin' => 'boolean',
         ]);
-
-        $user = User::create($request->all());
-
-        return response()->json([
-            'message' => 'User created successfully!',
-            'user' => $user,
-        ], 201);
+    
+        $data = $request->all();
+        $data['password'] = bcrypt($request->password);
+    
+        User::create($data);
+    
+        return redirect()->route('user.index')->with('success', 'User created successfully!');
     }
+    
 
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return response()->json($user);
+        return view('user.show', compact('user')); // Повертаємо вьюшку для показу користувача
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('user.edit', compact('user')); // Повертаємо вьюшку для редагування користувача
     }
 
     public function update(Request $request, $id)
@@ -53,10 +66,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return response()->json([
-            'message' => 'User updated successfully!',
-            'user' => $user,
-        ]);
+        return redirect()->route('user.index')->with('success', 'User updated successfully!');
     }
 
     public function destroy($id)
@@ -64,8 +74,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json([
-            'message' => 'User deleted successfully!',
-        ]);
+        return redirect()->route('user.index')->with('success', 'User deleted successfully!');
     }
 }
